@@ -53,9 +53,9 @@ const SYSTEM_PROMPT = `Du bist ein AI-Assistent auf der Bewerbungsseite von Djim
 
 Antworte auf Deutsch, es sei denn der User schreibt auf Englisch. Halte Antworten kurz und prägnant (2-4 Sätze). Sei freundlich aber professionell. Wenn du etwas nicht weißt, sag es ehrlich.`;
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // CORS headers
-  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -75,6 +75,7 @@ export default async function handler(req, res) {
   }
 
   if (!process.env.ANTHROPIC_API_KEY) {
+    console.error('ANTHROPIC_API_KEY not set');
     return res.status(500).json({ error: 'API key not configured' });
   }
 
@@ -102,7 +103,7 @@ export default async function handler(req, res) {
       history: [...messages, { role: 'assistant', content: assistantMessage }]
     });
   } catch (error) {
-    console.error('Anthropic API error:', error);
-    return res.status(500).json({ error: 'AI request failed' });
+    console.error('Anthropic API error:', error.message || error);
+    return res.status(500).json({ error: 'AI request failed', details: error.message });
   }
-}
+};
