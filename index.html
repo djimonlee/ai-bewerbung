@@ -327,9 +327,10 @@
         }
 
         .why-item {
-            display: flex;
-            gap: 1.5rem;
-            align-items: flex-start;
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 1rem;
+            align-items: start;
         }
 
         .why-number {
@@ -337,12 +338,18 @@
             font-weight: 900;
             line-height: 1;
             opacity: 0.3;
+            flex-shrink: 0;
         }
 
         .why-text {
             font-size: 1.2rem;
             font-weight: 600;
             line-height: 1.5;
+        }
+        
+        .why-content {
+            display: flex;
+            flex-direction: column;
         }
 
         .cta-section {
@@ -647,28 +654,38 @@
         <div class="why-grid">
             <div class="why-item">
                 <span class="why-number">01</span>
-                <p class="why-text" data-lang="de">Ich denke wie ein Gründer. ROI first. Wenn eine Lösung das Problem nicht effizienter löst, baue ich sie nicht.</p>
-                <p class="why-text" data-lang="en">I think like a founder. ROI first. If a solution doesn't solve the problem more efficiently, I don't build it.</p>
+                <div class="why-content">
+                    <p class="why-text" data-lang="de">Ich denke wie ein Gründer. ROI first. Wenn eine Lösung das Problem nicht effizienter löst, baue ich sie nicht.</p>
+                    <p class="why-text" data-lang="en">I think like a founder. ROI first. If a solution doesn't solve the problem more efficiently, I don't build it.</p>
+                </div>
             </div>
             <div class="why-item">
                 <span class="why-number">02</span>
-                <p class="why-text" data-lang="de">Ich hasse manuelle Prozesse. Wenn ich etwas zweimal mache, automatisiere ich es beim dritten Mal.</p>
-                <p class="why-text" data-lang="en">I hate manual processes. If I do something twice, I automate it the third time.</p>
+                <div class="why-content">
+                    <p class="why-text" data-lang="de">Ich hasse manuelle Prozesse. Wenn ich etwas zweimal mache, automatisiere ich es beim dritten Mal.</p>
+                    <p class="why-text" data-lang="en">I hate manual processes. If I do something twice, I automate it the third time.</p>
+                </div>
             </div>
             <div class="why-item">
                 <span class="why-number">03</span>
-                <p class="why-text" data-lang="de">Ich warte nicht auf Tickets. Ich sehe Ineffizienzen und eliminiere sie proaktiv.</p>
-                <p class="why-text" data-lang="en">I don't wait for tickets. I see inefficiencies and eliminate them proactively.</p>
+                <div class="why-content">
+                    <p class="why-text" data-lang="de">Ich warte nicht auf Tickets. Ich sehe Ineffizienzen und eliminiere sie proaktiv.</p>
+                    <p class="why-text" data-lang="en">I don't wait for tickets. I see inefficiencies and eliminate them proactively.</p>
+                </div>
             </div>
             <div class="why-item">
                 <span class="why-number">04</span>
-                <p class="why-text" data-lang="de">AI ist mein daily driver. Claude, ChatGPT, Gemini, n8n, Cursor — ich nutze alles was funktioniert.</p>
-                <p class="why-text" data-lang="en">AI is my daily driver. Claude, ChatGPT, Gemini, n8n, Cursor — I use whatever works.</p>
+                <div class="why-content">
+                    <p class="why-text" data-lang="de">AI ist mein daily driver. Claude, ChatGPT, Gemini, n8n, Cursor — ich nutze alles was funktioniert.</p>
+                    <p class="why-text" data-lang="en">AI is my daily driver. Claude, ChatGPT, Gemini, n8n, Cursor — I use whatever works.</p>
+                </div>
             </div>
             <div class="why-item">
                 <span class="why-number">05</span>
-                <p class="why-text" data-lang="de">Ich liefere Outcomes, keine Outputs. Time-to-Hire verkürzen > Lines of Code schreiben.</p>
-                <p class="why-text" data-lang="en">I deliver outcomes, not outputs. Reducing Time-to-Hire > writing lines of code.</p>
+                <div class="why-content">
+                    <p class="why-text" data-lang="de">Ich liefere Outcomes, keine Outputs. Time-to-Hire verkürzen > Lines of Code schreiben.</p>
+                    <p class="why-text" data-lang="en">I deliver outcomes, not outputs. Reducing Time-to-Hire > writing lines of code.</p>
+                </div>
             </div>
         </div>
     </section>
