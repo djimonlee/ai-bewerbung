@@ -95,7 +95,7 @@
         .char-11 { animation-delay: 0.55s; }
         .char-12 { animation-delay: 0.6s; }
         
-        /* Aurora Background Effect */
+        /* Aurora Background Effect - Performance Optimized */
         .aurora {
             position: absolute;
             width: 100%;
@@ -112,25 +112,51 @@
             width: 60vw;
             height: 60vw;
             border-radius: 50%;
-            filter: blur(100px);
-            animation: aurora-move 25s ease-in-out infinite;
+            filter: blur(80px);
+            will-change: transform;
+            animation: aurora-move 30s ease-in-out infinite;
         }
         .aurora::before {
-            background: rgba(255, 62, 0, 0.12);
+            background: rgba(255, 62, 0, 0.1);
             top: -30vw;
             left: -20vw;
         }
         .aurora::after {
-            background: rgba(255, 123, 77, 0.08);
+            background: rgba(255, 123, 77, 0.06);
             bottom: -30vw;
             right: -20vw;
-            animation-delay: -12s;
+            animation-delay: -15s;
         }
         @keyframes aurora-move {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(15%, 10%) scale(1.15); }
-            50% { transform: translate(5%, -10%) scale(0.95); }
-            75% { transform: translate(-10%, 5%) scale(1.1); }
+            0%, 100% { transform: translate3d(0, 0, 0); }
+            50% { transform: translate3d(5%, -5%, 0); }
+        }
+        
+        /* Disable heavy effects on mobile */
+        @media (max-width: 768px) {
+            .aurora::before,
+            .aurora::after {
+                animation: none;
+                filter: blur(60px);
+            }
+            .cursor-follower {
+                display: none !important;
+            }
+            .tilt-card:hover {
+                transform: none !important;
+            }
+            .tilt-card::before {
+                display: none;
+            }
+        }
+        
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
         
         /* Blob Animation */
@@ -142,42 +168,46 @@
             animation: blob 10s ease-in-out infinite;
         }
         
-        /* Scroll Reveal Animations */
+        /* Scroll Reveal Animations - GPU Optimized */
         .reveal {
             opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translate3d(0, 30px, 0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            will-change: opacity, transform;
         }
         .reveal.active {
             opacity: 1;
-            transform: translateY(0);
+            transform: translate3d(0, 0, 0);
         }
         .reveal-left {
             opacity: 0;
-            transform: translateX(-80px);
-            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translate3d(-40px, 0, 0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            will-change: opacity, transform;
         }
         .reveal-left.active {
             opacity: 1;
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0);
         }
         .reveal-right {
             opacity: 0;
-            transform: translateX(80px);
-            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translate3d(40px, 0, 0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            will-change: opacity, transform;
         }
         .reveal-right.active {
             opacity: 1;
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0);
         }
         .reveal-scale {
             opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: scale3d(0.95, 0.95, 1);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            will-change: opacity, transform;
         }
         .reveal-scale.active {
             opacity: 1;
-            transform: scale(1);
+            transform: scale3d(1, 1, 1);
         }
         
         /* Stagger delays for reveal */
@@ -187,32 +217,32 @@
         .stagger-4 { transition-delay: 0.4s !important; }
         .stagger-5 { transition-delay: 0.5s !important; }
         
-        /* 3D Card Tilt Effect */
+        /* 3D Card Tilt Effect - Desktop Only */
         .tilt-card {
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            transition: transform 0.15s ease-out;
+            transition: transform 0.2s ease-out;
         }
-        .tilt-card:hover {
-            transform: perspective(1000px) rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg));
-        }
-        .tilt-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(
-                circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-                rgba(255, 62, 0, 0.15) 0%,
-                transparent 60%
-            );
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-            border-radius: inherit;
-            z-index: 1;
-        }
-        .tilt-card:hover::before {
-            opacity: 1;
+        @media (hover: hover) and (min-width: 769px) {
+            .tilt-card:hover {
+                transform: perspective(1000px) rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg));
+            }
+            .tilt-card::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(
+                    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                    rgba(255, 62, 0, 0.12) 0%,
+                    transparent 50%
+                );
+                opacity: 0;
+                transition: opacity 0.2s ease;
+                pointer-events: none;
+                border-radius: inherit;
+                z-index: 1;
+            }
+            .tilt-card:hover::before {
+                opacity: 1;
+            }
         }
         
         /* Glow Effect */
@@ -415,11 +445,9 @@
         }
 
         @keyframes glitch {
-            0%, 90%, 100% { transform: translate(0); text-shadow: none; }
-            92% { transform: translate(-3px, 3px); text-shadow: 2px -2px 0 rgba(255,62,0,0.5); }
-            94% { transform: translate(3px, -3px); text-shadow: -2px 2px 0 rgba(255,62,0,0.5); }
-            96% { transform: translate(-3px, -3px); text-shadow: 2px 2px 0 rgba(255,62,0,0.5); }
-            98% { transform: translate(3px, 3px); text-shadow: -2px -2px 0 rgba(255,62,0,0.5); }
+            0%, 95%, 100% { transform: translate3d(0, 0, 0); }
+            96% { transform: translate3d(-2px, 2px, 0); }
+            98% { transform: translate3d(2px, -2px, 0); }
         }
 
         .hero-sub {
@@ -819,20 +847,22 @@
 
         .cursor-follower {
             position: fixed;
+            top: 0;
+            left: 0;
             width: 20px;
             height: 20px;
             border: 2px solid var(--accent);
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
-            transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), width 0.2s ease, height 0.2s ease;
+            will-change: transform;
             mix-blend-mode: difference;
         }
         
         .cursor-follower.hovering {
-            width: 50px;
-            height: 50px;
-            border-width: 3px;
+            width: 40px;
+            height: 40px;
+            margin: -10px 0 0 -10px;
         }
 
         /* Hide elements based on language */
@@ -1101,74 +1131,109 @@
 
     <script>
         // ========================================
-        // REACTBITS-INSPIRED ANIMATIONS
+        // PERFORMANCE-OPTIMIZED ANIMATIONS
         // ========================================
         
-        // Smooth cursor follower
+        const isMobile = window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window;
         const cursor = document.getElementById('cursor');
-        let cursorX = 0, cursorY = 0;
-        let targetX = 0, targetY = 0;
         
-        document.addEventListener('mousemove', (e) => {
-            targetX = e.clientX;
-            targetY = e.clientY;
-        });
-        
-        function animateCursor() {
-            cursorX += (targetX - cursorX) * 0.15;
-            cursorY += (targetY - cursorY) * 0.15;
-            cursor.style.left = cursorX - 10 + 'px';
-            cursor.style.top = cursorY - 10 + 'px';
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
+        // Cursor follower - Desktop only
+        if (!isMobile && cursor) {
+            let cursorX = 0, cursorY = 0;
+            let targetX = 0, targetY = 0;
+            let animating = false;
+            
+            document.addEventListener('mousemove', (e) => {
+                targetX = e.clientX;
+                targetY = e.clientY;
+                if (!animating) {
+                    animating = true;
+                    requestAnimationFrame(animateCursor);
+                }
+            }, { passive: true });
+            
+            function animateCursor() {
+                cursorX += (targetX - cursorX) * 0.12;
+                cursorY += (targetY - cursorY) * 0.12;
+                cursor.style.transform = `translate3d(${cursorX - 10}px, ${cursorY - 10}px, 0)`;
+                
+                if (Math.abs(targetX - cursorX) > 0.1 || Math.abs(targetY - cursorY) > 0.1) {
+                    requestAnimationFrame(animateCursor);
+                } else {
+                    animating = false;
+                }
+            }
 
-        // Hover effect on interactive elements
-        document.querySelectorAll('a, button, .problem-card, .project-item').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.classList.add('hovering');
+            // Hover effect on interactive elements
+            document.querySelectorAll('a, button, .problem-card, .project-item').forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hovering'), { passive: true });
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'), { passive: true });
             });
-            el.addEventListener('mouseleave', () => {
-                cursor.classList.remove('hovering');
-            });
-        });
+        } else if (cursor) {
+            cursor.style.display = 'none';
+        }
         
         // Scroll Reveal Observer
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
+                    // Remove will-change after animation
+                    setTimeout(() => {
+                        entry.target.style.willChange = 'auto';
+                    }, 700);
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        }, { threshold: 0.1 });
         
         document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
             revealObserver.observe(el);
         });
         
-        // 3D Tilt Effect for Cards
-        document.querySelectorAll('.tilt-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
+        // 3D Tilt Effect - Desktop only with throttle
+        if (!isMobile) {
+            document.querySelectorAll('.tilt-card').forEach(card => {
+                let ticking = false;
                 
-                const rotateX = (y - centerY) / 25;
-                const rotateY = (centerX - x) / 25;
+                card.addEventListener('mousemove', (e) => {
+                    if (!ticking) {
+                        requestAnimationFrame(() => {
+                            const rect = card.getBoundingClientRect();
+                            const x = e.clientX - rect.left;
+                            const y = e.clientY - rect.top;
+                            const centerX = rect.width / 2;
+                            const centerY = rect.height / 2;
+                            
+                            card.style.setProperty('--rotateX', `${(y - centerY) / 30}deg`);
+                            card.style.setProperty('--rotateY', `${(centerX - x) / 30}deg`);
+                            card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
+                            card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                }, { passive: true });
                 
-                card.style.setProperty('--rotateX', `${rotateX}deg`);
-                card.style.setProperty('--rotateY', `${rotateY}deg`);
-                card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
-                card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
+                card.addEventListener('mouseleave', () => {
+                    card.style.setProperty('--rotateX', '0deg');
+                    card.style.setProperty('--rotateY', '0deg');
+                }, { passive: true });
             });
             
-            card.addEventListener('mouseleave', () => {
-                card.style.setProperty('--rotateX', '0deg');
-                card.style.setProperty('--rotateY', '0deg');
+            // Magnetic Button Effect - Desktop only
+            document.querySelectorAll('.magnetic-btn').forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    btn.style.transform = `translate3d(${x * 0.2}px, ${y * 0.2}px, 0)`;
+                }, { passive: true });
+                
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'translate3d(0, 0, 0)';
+                }, { passive: true });
             });
-        });
+        }
         
         // Ripple Effect
         document.querySelectorAll('.ripple').forEach(btn => {
@@ -1179,45 +1244,25 @@
                 ripple.style.left = `${e.clientX - rect.left}px`;
                 ripple.style.top = `${e.clientY - rect.top}px`;
                 this.appendChild(ripple);
-                setTimeout(() => ripple.remove(), 700);
+                setTimeout(() => ripple.remove(), 600);
             });
         });
         
-        // Magnetic Button Effect
-        document.querySelectorAll('.magnetic-btn').forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                btn.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px) scale(1.02)`;
-            });
-            
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = 'translate(0, 0) scale(1)';
-            });
-        });
-        
-        // Counter Animation
+        // Counter Animation - Simpler version
         const counterObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const counter = entry.target;
                     const target = parseInt(counter.dataset.target);
-                    const duration = 2500;
+                    const duration = 1500;
                     const startTime = performance.now();
                     
                     const animate = (currentTime) => {
-                        const elapsed = currentTime - startTime;
-                        const progress = Math.min(elapsed / duration, 1);
-                        // Ease out cubic
-                        const easeOut = 1 - Math.pow(1 - progress, 3);
-                        const current = Math.floor(target * easeOut);
+                        const progress = Math.min((currentTime - startTime) / duration, 1);
+                        const easeOut = 1 - Math.pow(1 - progress, 2);
+                        counter.textContent = Math.floor(target * easeOut).toLocaleString();
                         
-                        counter.textContent = current.toLocaleString();
-                        
-                        if (progress < 1) {
-                            requestAnimationFrame(animate);
-                        }
+                        if (progress < 1) requestAnimationFrame(animate);
                     };
                     
                     requestAnimationFrame(animate);
@@ -1226,9 +1271,7 @@
             });
         }, { threshold: 0.5 });
         
-        document.querySelectorAll('.counter').forEach(el => {
-            counterObserver.observe(el);
-        });
+        document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
 
         // Language Toggle
         document.querySelectorAll('.lang-btn').forEach(btn => {
