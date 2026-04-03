@@ -696,6 +696,9 @@
         .project-preview img {
             width: 100%;
             height: auto;
+            max-height: 250px;
+            object-fit: cover;
+            object-position: top;
             display: block;
             transition: transform 0.5s ease;
         }
@@ -1212,7 +1215,7 @@
         <div class="project-item reveal stagger-3">
             <div>
                 <h3 class="project-name">AI Lead Funnel</h3>
-                <span class="project-link">→ Client Project</span>
+                <a href="https://prod.danielwsp.com" target="_blank" class="project-link">→ Live ansehen</a>
             </div>
             <div>
                 <p class="project-desc" data-lang="de">
@@ -1221,11 +1224,12 @@
                 <p class="project-desc" data-lang="en">
                     Interactive funnel for content creator. AI chat qualifies visitors, collects data, books directly into Calendly. n8n workflow orchestrates entire flow. Hands-off lead generation.
                 </p>
-                <div class="project-preview-placeholder">
-                    <div class="project-preview-placeholder-icon">🤖</div>
-                    <p class="project-preview-placeholder-text" data-lang="de">Kundenprojekt — Demo auf Anfrage</p>
-                    <p class="project-preview-placeholder-text" data-lang="en">Client Project — Demo on Request</p>
-                </div>
+                <a href="https://prod.danielwsp.com" target="_blank" class="project-preview">
+                    <img src="images/funnel-preview.jpg" alt="AI Lead Funnel Preview" loading="lazy">
+                    <div class="project-preview-overlay">
+                        <span class="project-preview-cta">Zur Website →</span>
+                    </div>
+                </a>
             </div>
         </div>
     </section>
