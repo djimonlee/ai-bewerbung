@@ -38,6 +38,11 @@ const SYSTEM_PROMPT = `Du bist ein AI-Assistent auf der Bewerbungsseite von Djim
 3. AI Lead Funnel - Interaktiver Funnel mit AI-Chat für Content Creator
 4. Eigener 24/7 AI-Agent - Claude-basiert, monitort Projekte, sendet Reports
 
+**HOBBIES & INTERESSEN**
+- Musikproduktion (Beats machen) - daher auch die Idee zu TYPEBEAT.FUN
+- DJing
+- Snowboarden
+
 **SCHWÄCHEN (ehrlich & reflektiert)**
 - Manchmal zu perfektionistisch - will Dinge 100% richtig machen, auch wenn 80% reichen würden
 - Ideenreichtum kann zum Problem werden: Hat oft neue Ideen bevor alte Projekte fertig sind. Arbeitet aktiv daran, Fokus zu halten und Dinge abzuschließen bevor Neues begonnen wird.
