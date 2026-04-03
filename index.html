@@ -29,6 +29,9 @@
             cursor: crosshair;
         }
 
+        /* ========================================
+           NOISE OVERLAY
+           ======================================== */
         .noise {
             position: fixed;
             top: 0;
@@ -39,6 +42,281 @@
             opacity: 0.03;
             z-index: 1000;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* ========================================
+           REACTBITS-INSPIRED ANIMATIONS
+           ======================================== */
+        
+        /* Animated Gradient Text - Shimmer Effect */
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .gradient-text-animated {
+            background: linear-gradient(90deg, #ff3e00, #ff7b4d, #ffb899, #ff7b4d, #ff3e00);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s ease infinite;
+        }
+        
+        /* Split Text Animation */
+        .split-text {
+            display: inline-flex;
+            overflow: hidden;
+        }
+        .split-text .char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(100%) rotateX(-80deg);
+            animation: char-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes char-reveal {
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+        
+        /* Stagger delays for split text */
+        .char-1 { animation-delay: 0.05s; }
+        .char-2 { animation-delay: 0.1s; }
+        .char-3 { animation-delay: 0.15s; }
+        .char-4 { animation-delay: 0.2s; }
+        .char-5 { animation-delay: 0.25s; }
+        .char-6 { animation-delay: 0.3s; }
+        .char-7 { animation-delay: 0.35s; }
+        .char-8 { animation-delay: 0.4s; }
+        .char-9 { animation-delay: 0.45s; }
+        .char-10 { animation-delay: 0.5s; }
+        .char-11 { animation-delay: 0.55s; }
+        .char-12 { animation-delay: 0.6s; }
+        
+        /* Aurora Background Effect */
+        .aurora {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+        }
+        .aurora::before,
+        .aurora::after {
+            content: '';
+            position: absolute;
+            width: 60vw;
+            height: 60vw;
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: aurora-move 25s ease-in-out infinite;
+        }
+        .aurora::before {
+            background: rgba(255, 62, 0, 0.12);
+            top: -30vw;
+            left: -20vw;
+        }
+        .aurora::after {
+            background: rgba(255, 123, 77, 0.08);
+            bottom: -30vw;
+            right: -20vw;
+            animation-delay: -12s;
+        }
+        @keyframes aurora-move {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(15%, 10%) scale(1.15); }
+            50% { transform: translate(5%, -10%) scale(0.95); }
+            75% { transform: translate(-10%, 5%) scale(1.1); }
+        }
+        
+        /* Blob Animation */
+        @keyframes blob {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+        }
+        .blob {
+            animation: blob 10s ease-in-out infinite;
+        }
+        
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-80px);
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(80px);
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Stagger delays for reveal */
+        .stagger-1 { transition-delay: 0.1s !important; }
+        .stagger-2 { transition-delay: 0.2s !important; }
+        .stagger-3 { transition-delay: 0.3s !important; }
+        .stagger-4 { transition-delay: 0.4s !important; }
+        .stagger-5 { transition-delay: 0.5s !important; }
+        
+        /* 3D Card Tilt Effect */
+        .tilt-card {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: transform 0.15s ease-out;
+        }
+        .tilt-card:hover {
+            transform: perspective(1000px) rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg));
+        }
+        .tilt-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(255, 62, 0, 0.15) 0%,
+                transparent 60%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            border-radius: inherit;
+            z-index: 1;
+        }
+        .tilt-card:hover::before {
+            opacity: 1;
+        }
+        
+        /* Glow Effect */
+        .glow-effect {
+            position: relative;
+        }
+        .glow-effect::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            background: linear-gradient(45deg, #ff3e00, #ff7b4d, #ffb899, #ff7b4d);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            filter: blur(20px);
+            transition: opacity 0.4s ease;
+        }
+        .glow-effect:hover::after {
+            opacity: 0.6;
+        }
+        
+        /* Button Shine Effect */
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shine::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.25),
+                transparent
+            );
+            animation: shine 4s infinite;
+        }
+        @keyframes shine {
+            0% { left: -100%; }
+            25% { left: 100%; }
+            100% { left: 100%; }
+        }
+        
+        /* Magnetic Button Effect */
+        .magnetic-btn {
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        /* Ripple Effect */
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(0);
+            animation: ripple-animation 0.7s linear;
+            pointer-events: none;
+        }
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* Counter Animation */
+        .counter {
+            display: inline-block;
+        }
+        
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        .float { animation: float 4s ease-in-out infinite; }
+        
+        /* Border Glow Animation */
+        @keyframes border-glow {
+            0%, 100% { border-color: rgba(255, 62, 0, 0.3); }
+            50% { border-color: rgba(255, 62, 0, 0.8); }
+        }
+        .border-glow:hover {
+            animation: border-glow 2s ease-in-out infinite;
+        }
+        
+        /* Text Gradient Animation */
+        @keyframes text-shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .text-shimmer {
+            background: linear-gradient(90deg, var(--white) 0%, var(--accent) 25%, var(--white) 50%, var(--accent) 75%, var(--white) 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: text-shimmer 5s linear infinite;
         }
 
         /* Language Toggle */
@@ -111,6 +389,8 @@
             justify-content: center;
             align-items: flex-start;
             padding: 2rem;
+            position: relative;
+            overflow: hidden;
         }
 
         .hero-title {
@@ -119,6 +399,8 @@
             line-height: 0.9;
             letter-spacing: -0.05em;
             text-transform: uppercase;
+            position: relative;
+            z-index: 2;
         }
 
         .hero-title .accent {
@@ -126,13 +408,18 @@
             display: inline-block;
             animation: glitch 3s infinite;
         }
+        
+        .hero-title .line-2 {
+            display: block;
+            margin-top: 0.1em;
+        }
 
         @keyframes glitch {
-            0%, 90%, 100% { transform: translate(0); }
-            92% { transform: translate(-2px, 2px); }
-            94% { transform: translate(2px, -2px); }
-            96% { transform: translate(-2px, -2px); }
-            98% { transform: translate(2px, 2px); }
+            0%, 90%, 100% { transform: translate(0); text-shadow: none; }
+            92% { transform: translate(-3px, 3px); text-shadow: 2px -2px 0 rgba(255,62,0,0.5); }
+            94% { transform: translate(3px, -3px); text-shadow: -2px 2px 0 rgba(255,62,0,0.5); }
+            96% { transform: translate(-3px, -3px); text-shadow: 2px 2px 0 rgba(255,62,0,0.5); }
+            98% { transform: translate(3px, 3px); text-shadow: -2px -2px 0 rgba(255,62,0,0.5); }
         }
 
         .hero-sub {
@@ -142,6 +429,8 @@
             margin-top: 2rem;
             max-width: 600px;
             line-height: 1.6;
+            position: relative;
+            z-index: 2;
         }
 
         .scroll-indicator {
@@ -153,6 +442,7 @@
             font-size: 0.8rem;
             color: var(--gray);
             animation: bounce 2s infinite;
+            z-index: 2;
         }
 
         @keyframes bounce {
@@ -178,7 +468,7 @@
             background: linear-gradient(135deg, #111 0%, #0a0a0a 100%);
             border: 1px solid #222;
             padding: 2rem;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
         }
@@ -192,16 +482,19 @@
             height: 100%;
             background: var(--accent);
             transform: scaleY(0);
-            transition: transform 0.3s ease;
+            transform-origin: bottom;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .problem-card:hover::before {
             transform: scaleY(1);
+            transform-origin: top;
         }
 
         .problem-card:hover {
-            transform: translateX(10px);
+            transform: translateX(15px);
             border-color: var(--accent);
+            box-shadow: 0 10px 40px rgba(255, 62, 0, 0.1);
         }
 
         .problem-label {
@@ -240,11 +533,31 @@
             background: #1a1a1a;
             border: 1px solid #333;
             color: var(--white);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-tag:hover {
+            border-color: var(--accent);
+            background: rgba(255, 62, 0, 0.1);
         }
 
         .stats-section {
             background: var(--white);
             color: var(--black);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 62, 0, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 62, 0, 0.05) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         .stats-grid {
@@ -252,6 +565,8 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 3rem;
             max-width: 1000px;
+            position: relative;
+            z-index: 2;
         }
 
         .stat-item {
@@ -276,6 +591,19 @@
 
         .projects-section {
             background: var(--black);
+            position: relative;
+        }
+        
+        /* Grid background */
+        .projects-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255,62,0,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,62,0,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
         }
 
         .project-item {
@@ -285,7 +613,8 @@
             grid-template-columns: 1fr 2fr;
             gap: 2rem;
             align-items: start;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
         }
 
         .project-item:hover {
@@ -306,6 +635,11 @@
             text-decoration: none;
             display: block;
             margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .project-link:hover {
+            transform: translateX(5px);
         }
 
         .project-desc {
@@ -318,12 +652,31 @@
         .why-section {
             background: var(--accent);
             color: var(--black);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Animated pattern background */
+        .why-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 20px,
+                rgba(0,0,0,0.03) 20px,
+                rgba(0,0,0,0.03) 40px
+            );
+            pointer-events: none;
         }
 
         .why-grid {
             display: grid;
             gap: 2rem;
             max-width: 800px;
+            position: relative;
+            z-index: 2;
         }
 
         .why-item {
@@ -331,6 +684,11 @@
             grid-template-columns: 80px 1fr;
             gap: 1rem;
             align-items: start;
+            transition: all 0.3s ease;
+        }
+        
+        .why-item:hover {
+            transform: translateX(10px);
         }
 
         .why-number {
@@ -339,6 +697,11 @@
             line-height: 1;
             opacity: 0.3;
             flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .why-item:hover .why-number {
+            opacity: 0.6;
         }
 
         .why-text {
@@ -358,6 +721,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
 
         .cta-text {
@@ -366,6 +731,8 @@
             max-width: 800px;
             line-height: 1.3;
             margin-bottom: 3rem;
+            position: relative;
+            z-index: 2;
         }
 
         .cta-button {
@@ -379,13 +746,15 @@
             text-transform: uppercase;
             letter-spacing: 0.2em;
             font-weight: 700;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             text-decoration: none;
+            position: relative;
+            z-index: 2;
         }
 
         .cta-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(255, 62, 0, 0.5);
+            transform: scale(1.08);
+            box-shadow: 0 0 60px rgba(255, 62, 0, 0.6);
         }
 
         .contact-info {
@@ -393,11 +762,18 @@
             font-size: 0.9rem;
             color: var(--gray);
             margin-top: 3rem;
+            position: relative;
+            z-index: 2;
         }
 
         .contact-info a {
             color: var(--white);
             text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-info a:hover {
+            color: var(--accent);
         }
 
         .marquee {
@@ -406,6 +782,7 @@
             padding: 1rem 0;
             border-top: 1px solid #222;
             border-bottom: 1px solid #222;
+            background: linear-gradient(90deg, var(--black) 0%, #111 50%, var(--black) 100%);
         }
 
         .marquee-content {
@@ -462,8 +839,14 @@
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
-            transition: transform 0.1s ease;
+            transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), width 0.2s ease, height 0.2s ease;
             mix-blend-mode: difference;
+        }
+        
+        .cursor-follower.hovering {
+            width: 50px;
+            height: 50px;
+            border-width: 3px;
         }
 
         /* Hide elements based on language */
@@ -479,32 +862,39 @@
     <div class="cursor-follower" id="cursor"></div>
 
     <!-- Language Toggle -->
-    <div class="lang-toggle">
-        <button class="lang-btn active" data-target="de">
+    <div class="lang-toggle reveal" style="transition-delay: 1s;">
+        <button class="lang-btn active ripple" data-target="de">
             DE
             <span class="badge">Native</span>
         </button>
         <span class="lang-divider">/</span>
-        <button class="lang-btn" data-target="en">
+        <button class="lang-btn ripple" data-target="en">
             EN
             <span class="badge">Fluent</span>
         </button>
     </div>
 
     <section class="hero">
+        <!-- Aurora Background -->
+        <div class="aurora"></div>
+        
         <h1 class="hero-title">
-            <span class="accent">AI</span>-FIRST<br>
-            DEVELOPER
+            <span class="split-text">
+                <span class="char char-1 gradient-text-animated">A</span><span class="char char-2 gradient-text-animated">I</span>
+            </span><span class="char char-3">-</span><span class="split-text"><span class="char char-4">F</span><span class="char char-5">I</span><span class="char char-6">R</span><span class="char char-7">S</span><span class="char char-8">T</span></span>
+            <span class="line-2 split-text">
+                <span class="char char-9">D</span><span class="char char-10">E</span><span class="char char-11">V</span><span class="char char-12">.</span>
+            </span>
         </h1>
-        <p class="hero-sub" data-lang="de">
+        <p class="hero-sub reveal" style="transition-delay: 0.8s;" data-lang="de">
             Djimon Pfitzer. SaaS-Gründer. Automation-Architekt.<br>
             Ich baue keine Features — ich eliminiere manuelle Prozesse.
         </p>
-        <p class="hero-sub" data-lang="en">
+        <p class="hero-sub reveal" style="transition-delay: 0.8s;" data-lang="en">
             Djimon Pfitzer. SaaS Founder. Automation Architect.<br>
             I don't build features — I eliminate manual processes.
         </p>
-        <div class="scroll-indicator">↓ SCROLL</div>
+        <div class="scroll-indicator float">↓ SCROLL</div>
     </section>
 
     <div class="marquee">
@@ -514,11 +904,11 @@
     </div>
 
     <section class="problems-section">
-        <h2 class="section-title" data-lang="de">Probleme,<br>die ich mit AI<br>gelöst habe</h2>
-        <h2 class="section-title" data-lang="en">Problems<br>I've solved<br>with AI</h2>
+        <h2 class="section-title reveal" data-lang="de">Probleme,<br>die ich mit AI<br>gelöst habe</h2>
+        <h2 class="section-title reveal" data-lang="en">Problems<br>I've solved<br>with AI</h2>
         
         <div class="problem-grid">
-            <div class="problem-card">
+            <div class="problem-card tilt-card reveal stagger-1">
                 <div class="problem-label">Problem 01</div>
                 <h3 class="problem-title" data-lang="de">Beat-Upload-Chaos → Vollautomatisierung</h3>
                 <h3 class="problem-title" data-lang="en">Beat Upload Chaos → Full Automation</h3>
@@ -537,7 +927,7 @@
                 </div>
             </div>
 
-            <div class="problem-card">
+            <div class="problem-card tilt-card reveal stagger-2">
                 <div class="problem-label">Problem 02</div>
                 <h3 class="problem-title" data-lang="de">Schichtplan-Hölle → Self-Service Tool</h3>
                 <h3 class="problem-title" data-lang="en">Scheduling Hell → Self-Service Tool</h3>
@@ -555,7 +945,7 @@
                 </div>
             </div>
 
-            <div class="problem-card">
+            <div class="problem-card tilt-card reveal stagger-3">
                 <div class="problem-label">Problem 03</div>
                 <h3 class="problem-title" data-lang="de">Lead-Generierung → AI-Funnel</h3>
                 <h3 class="problem-title" data-lang="en">Lead Generation → AI Funnel</h3>
@@ -573,7 +963,7 @@
                 </div>
             </div>
 
-            <div class="problem-card">
+            <div class="problem-card tilt-card reveal stagger-4">
                 <div class="problem-label">Problem 04</div>
                 <h3 class="problem-title" data-lang="de">Mein eigener AI-Agent → 24/7 Automatisierung</h3>
                 <h3 class="problem-title" data-lang="en">My Own AI Agent → 24/7 Automation</h3>
@@ -594,25 +984,25 @@
     </section>
 
     <section class="stats-section">
-        <h2 class="section-title" style="color: var(--black)" data-lang="de">In Zahlen</h2>
-        <h2 class="section-title" style="color: var(--black)" data-lang="en">By the Numbers</h2>
+        <h2 class="section-title reveal" style="color: var(--black)" data-lang="de">In Zahlen</h2>
+        <h2 class="section-title reveal" style="color: var(--black)" data-lang="en">By the Numbers</h2>
         <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-number">~1000</div>
+            <div class="stat-item reveal stagger-1">
+                <div class="stat-number">~<span class="counter" data-target="1000">0</span></div>
                 <div class="stat-label" data-lang="de">Nutzer auf TYPEBEAT.FUN</div>
                 <div class="stat-label" data-lang="en">Users on TYPEBEAT.FUN</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">14+</div>
+            <div class="stat-item reveal stagger-2">
+                <div class="stat-number"><span class="counter" data-target="14">0</span>+</div>
                 <div class="stat-label" data-lang="de">Monate Gründer-Erfahrung</div>
                 <div class="stat-label" data-lang="en">Months Founder Experience</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">3</div>
+            <div class="stat-item reveal stagger-3">
+                <div class="stat-number"><span class="counter" data-target="3">0</span></div>
                 <div class="stat-label" data-lang="de">AI-Produkte live</div>
                 <div class="stat-label" data-lang="en">AI Products Live</div>
             </div>
-            <div class="stat-item">
+            <div class="stat-item reveal stagger-4">
                 <div class="stat-number">24/7</div>
                 <div class="stat-label" data-lang="de">AI-Agent im Einsatz</div>
                 <div class="stat-label" data-lang="en">AI Agent Running</div>
@@ -621,12 +1011,12 @@
     </section>
 
     <section class="projects-section">
-        <h2 class="section-title" data-lang="de">Projekte</h2>
-        <h2 class="section-title" data-lang="en">Projects</h2>
+        <h2 class="section-title reveal" data-lang="de">Projekte</h2>
+        <h2 class="section-title reveal" data-lang="en">Projects</h2>
         
-        <div class="project-item">
+        <div class="project-item reveal stagger-1">
             <div>
-                <h3 class="project-name">TYPEBEAT.FUN</h3>
+                <h3 class="project-name text-shimmer">TYPEBEAT.FUN</h3>
                 <span class="project-link">→ SaaS Platform</span>
             </div>
             <p class="project-desc" data-lang="de">
@@ -637,7 +1027,7 @@
             </p>
         </div>
 
-        <div class="project-item">
+        <div class="project-item reveal stagger-2">
             <div>
                 <h3 class="project-name">Schichtplaner</h3>
                 <span class="project-link">→ Private Instance</span>
@@ -650,7 +1040,7 @@
             </p>
         </div>
 
-        <div class="project-item">
+        <div class="project-item reveal stagger-3">
             <div>
                 <h3 class="project-name">AI Lead Funnel</h3>
                 <span class="project-link">→ Client Project</span>
@@ -665,38 +1055,38 @@
     </section>
 
     <section class="why-section">
-        <h2 class="section-title" data-lang="de">Warum ich</h2>
-        <h2 class="section-title" data-lang="en">Why me</h2>
+        <h2 class="section-title reveal" data-lang="de">Warum ich</h2>
+        <h2 class="section-title reveal" data-lang="en">Why me</h2>
         <div class="why-grid">
-            <div class="why-item">
+            <div class="why-item reveal stagger-1">
                 <span class="why-number">01</span>
                 <div class="why-content">
                     <p class="why-text" data-lang="de">Ich denke wie ein Gründer. ROI first. Wenn eine Lösung das Problem nicht effizienter löst, baue ich sie nicht.</p>
                     <p class="why-text" data-lang="en">I think like a founder. ROI first. If a solution doesn't solve the problem more efficiently, I don't build it.</p>
                 </div>
             </div>
-            <div class="why-item">
+            <div class="why-item reveal stagger-2">
                 <span class="why-number">02</span>
                 <div class="why-content">
                     <p class="why-text" data-lang="de">Ich hasse manuelle Prozesse. Wenn ich etwas zweimal mache, automatisiere ich es beim dritten Mal.</p>
                     <p class="why-text" data-lang="en">I hate manual processes. If I do something twice, I automate it the third time.</p>
                 </div>
             </div>
-            <div class="why-item">
+            <div class="why-item reveal stagger-3">
                 <span class="why-number">03</span>
                 <div class="why-content">
                     <p class="why-text" data-lang="de">Ich warte nicht auf Tickets. Ich sehe Ineffizienzen und eliminiere sie proaktiv.</p>
                     <p class="why-text" data-lang="en">I don't wait for tickets. I see inefficiencies and eliminate them proactively.</p>
                 </div>
             </div>
-            <div class="why-item">
+            <div class="why-item reveal stagger-4">
                 <span class="why-number">04</span>
                 <div class="why-content">
                     <p class="why-text" data-lang="de">AI ist mein daily driver. Claude, ChatGPT, Gemini, n8n, Cursor — ich nutze alles was funktioniert.</p>
                     <p class="why-text" data-lang="en">AI is my daily driver. Claude, ChatGPT, Gemini, n8n, Cursor — I use whatever works.</p>
                 </div>
             </div>
-            <div class="why-item">
+            <div class="why-item reveal stagger-5">
                 <span class="why-number">05</span>
                 <div class="why-content">
                     <p class="why-text" data-lang="de">Ich liefere Outcomes, keine Outputs. Time-to-Hire verkürzen > Lines of Code schreiben.</p>
@@ -707,35 +1097,151 @@
     </section>
 
     <section class="cta-section">
-        <p class="cta-text" data-lang="de">
+        <!-- Aurora Background -->
+        <div class="aurora"></div>
+        
+        <p class="cta-text reveal" data-lang="de">
             Bereit, euren Candidate Flow in eine AI-gesteuerte Engine zu verwandeln.
         </p>
-        <p class="cta-text" data-lang="en">
+        <p class="cta-text reveal" data-lang="en">
             Ready to transform your candidate flow into an AI-powered engine.
         </p>
-        <a href="mailto:djimonpfitzer@gmail.com" class="cta-button">Let's talk</a>
-        <div class="contact-info">
+        <a href="mailto:djimonpfitzer@gmail.com" class="cta-button btn-shine glow-effect magnetic-btn ripple reveal" style="transition-delay: 0.2s;">Let's talk</a>
+        <div class="contact-info reveal" style="transition-delay: 0.4s;">
             <a href="mailto:djimonpfitzer@gmail.com">djimonpfitzer@gmail.com</a> · 
             <a href="https://github.com/djimonlee" target="_blank">github.com/djimonlee</a>
         </div>
     </section>
 
     <script>
-        // Cursor follower
+        // ========================================
+        // REACTBITS-INSPIRED ANIMATIONS
+        // ========================================
+        
+        // Smooth cursor follower
         const cursor = document.getElementById('cursor');
+        let cursorX = 0, cursorY = 0;
+        let targetX = 0, targetY = 0;
+        
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX - 10 + 'px';
-            cursor.style.top = e.clientY - 10 + 'px';
+            targetX = e.clientX;
+            targetY = e.clientY;
         });
+        
+        function animateCursor() {
+            cursorX += (targetX - cursorX) * 0.15;
+            cursorY += (targetY - cursorY) * 0.15;
+            cursor.style.left = cursorX - 10 + 'px';
+            cursor.style.top = cursorY - 10 + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
 
         // Hover effect on interactive elements
-        document.querySelectorAll('a, button, .problem-card').forEach(el => {
+        document.querySelectorAll('a, button, .problem-card, .project-item').forEach(el => {
             el.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'scale(2)';
+                cursor.classList.add('hovering');
             });
             el.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'scale(1)';
+                cursor.classList.remove('hovering');
             });
+        });
+        
+        // Scroll Reveal Observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+            revealObserver.observe(el);
+        });
+        
+        // 3D Tilt Effect for Cards
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 25;
+                const rotateY = (centerX - x) / 25;
+                
+                card.style.setProperty('--rotateX', `${rotateX}deg`);
+                card.style.setProperty('--rotateY', `${rotateY}deg`);
+                card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
+                card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.setProperty('--rotateX', '0deg');
+                card.style.setProperty('--rotateY', '0deg');
+            });
+        });
+        
+        // Ripple Effect
+        document.querySelectorAll('.ripple').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple-effect';
+                ripple.style.left = `${e.clientX - rect.left}px`;
+                ripple.style.top = `${e.clientY - rect.top}px`;
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 700);
+            });
+        });
+        
+        // Magnetic Button Effect
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px) scale(1.02)`;
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0) scale(1)';
+            });
+        });
+        
+        // Counter Animation
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = parseInt(counter.dataset.target);
+                    const duration = 2500;
+                    const startTime = performance.now();
+                    
+                    const animate = (currentTime) => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        // Ease out cubic
+                        const easeOut = 1 - Math.pow(1 - progress, 3);
+                        const current = Math.floor(target * easeOut);
+                        
+                        counter.textContent = current.toLocaleString();
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        }
+                    };
+                    
+                    requestAnimationFrame(animate);
+                    counterObserver.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        document.querySelectorAll('.counter').forEach(el => {
+            counterObserver.observe(el);
         });
 
         // Language Toggle
@@ -752,23 +1258,16 @@
                 }
             });
         });
-
-        // Intersection Observer for animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+        
+        // Trigger initial reveal for visible elements
+        setTimeout(() => {
+            document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                    el.classList.add('active');
                 }
             });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.problem-card, .project-item, .why-item, .stat-item').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s ease';
-            observer.observe(el);
-        });
+        }, 100);
     </script>
 
     <!-- AI Chat Widget -->
@@ -792,17 +1291,18 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 20px rgba(255, 62, 0, 0.4);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             font-size: 1.5rem;
         }
 
         .chat-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(255, 62, 0, 0.6);
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 6px 40px rgba(255, 62, 0, 0.7);
         }
 
         .chat-toggle.active {
             background: #333;
+            transform: rotate(0);
         }
 
         .chat-window {
@@ -819,22 +1319,22 @@
             display: none;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 60px rgba(0, 0, 0, 0.6);
         }
 
         .chat-window.open {
             display: flex;
-            animation: slideUp 0.3s ease;
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px) scale(0.95);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
 
@@ -864,6 +1364,12 @@
             border-radius: 3px;
             margin-left: 0.5rem;
             font-weight: 700;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         .chat-messages {
@@ -881,6 +1387,18 @@
             border-radius: 12px;
             font-size: 0.85rem;
             line-height: 1.5;
+            animation: messageIn 0.3s ease;
+        }
+        
+        @keyframes messageIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .chat-message.user {
@@ -929,6 +1447,7 @@
             font-family: 'Space Mono', monospace;
             font-size: 0.85rem;
             outline: none;
+            transition: border-color 0.3s ease;
         }
 
         .chat-input:focus {
@@ -947,7 +1466,7 @@
             color: var(--black);
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
 
         .chat-send:hover {
@@ -975,12 +1494,13 @@
             font-size: 0.7rem;
             color: var(--gray);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
 
         .chat-suggestion:hover {
             border-color: var(--accent);
             color: var(--white);
+            transform: translateY(-2px);
         }
 
         @media (max-width: 480px) {
