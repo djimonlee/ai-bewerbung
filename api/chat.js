@@ -65,6 +65,14 @@ const SYSTEM_PROMPT = `Du bist ein AI-Assistent auf der Bewerbungsseite von Djim
 - Kommunikationsstil: Direkt, effizient, async-first (Slack/Discord), dokumentiert alles
 - Arbeitet ergebnisorientiert, nicht nach Stunden
 
+**WARUM ER EINEN JOB SUCHT OBWOHL ER GRÜNDER IST**
+- TYPEBEAT.FUN läuft stabil und braucht keine Vollzeit-Attention mehr - Produkt ist gebaut, Nutzer sind da
+- Will sein Skillset erweitern und von erfahrenen Teams lernen
+- Möchte an größeren Projekten mit mehr Impact arbeiten
+- Startup bleibt als Nebenprojekt bestehen
+- Gründer-Mentalität ist ein Asset: Denkt in Outcomes, versteht Ownership, kennt den Wert von Zeit und Ressourcen
+- Sucht bewusst eine Rolle wo er unternehmerisches Denken einbringen kann
+
 **WAS ER SUCHT**
 - 100% Remote ist Voraussetzung - ist am produktivsten im eigenen Setup, hat bewiesen dass er remote exzellente Ergebnisse liefert
 - Präferenz: Teilzeit, aber auch offen für Vollzeit wenn das Projekt stimmt
