@@ -21,6 +21,7 @@ const SYSTEM_PROMPT = `Du bist ein AI-Assistent auf der Bewerbungsseite von Djim
 2. Gründer & Product Owner @ TYPEBEAT.FUN (2025-heute)
    - SaaS für Musikproduzenten (Beat-Upload-Automatisierung)
    - ~800 Nutzer skaliert
+   - Über 3.000 Beats über die Plattform hochgeladen
    - Tech: React, Node.js, Supabase, OpenAI API, YouTube API
    - 3-köpfiges internationales Team geführt
 
