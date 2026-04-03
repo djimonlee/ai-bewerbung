@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Djimon Pfitzer — AI-First Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0a0a0a;
+            --white: #fafafa;
+            --accent: #ff3e00;
+            --gray: #666;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: 1000;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 15vw, 12rem);
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+        }
+
+        .hero-title .accent {
+            color: var(--accent);
+            display: inline-block;
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-2px, 2px); }
+            94% { transform: translate(2px, -2px); }
+            96% { transform: translate(-2px, -2px); }
+            98% { transform: translate(2px, 2px); }
+        }
+
+        .hero-sub {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(0.8rem, 2vw, 1.2rem);
+            color: var(--gray);
+            margin-top: 2rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--gray);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 8vw, 6rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+        }
+
+        .problem-grid {
+            display: grid;
+            gap: 2rem;
+            max-width: 1200px;
+        }
+
+        .problem-card {
+            background: linear-gradient(135deg, #111 0%, #0a0a0a 100%);
+            border: 1px solid #222;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .problem-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .problem-card:hover {
+            transform: translateX(10px);
+            border-color: var(--accent);
+        }
+
+        .problem-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+        }
+
+        .problem-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .problem-desc {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .problem-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            padding: 0.3rem 0.6rem;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: var(--white);
+        }
+
+        .stats-section {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1000px;
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 900;
+            line-height: 1;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .projects-section {
+            background: var(--black);
+        }
+
+        .project-item {
+            border-bottom: 1px solid #222;
+            padding: 3rem 0;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            align-items: start;
+            transition: all 0.3s ease;
+        }
+
+        .project-item:hover {
+            padding-left: 2rem;
+            border-color: var(--accent);
+        }
+
+        .project-name {
+            font-size: 2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .project-link {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+            text-decoration: none;
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        .project-desc {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        .why-section {
+            background: var(--accent);
+            color: var(--black);
+        }
+
+        .why-grid {
+            display: grid;
+            gap: 2rem;
+            max-width: 800px;
+        }
+
+        .why-item {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .why-number {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1;
+            opacity: 0.3;
+        }
+
+        .why-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .cta-section {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cta-text {
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            font-weight: 900;
+            max-width: 800px;
+            line-height: 1.3;
+            margin-bottom: 3rem;
+        }
+
+        .cta-button {
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            padding: 1.5rem 3rem;
+            background: var(--accent);
+            color: var(--black);
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 62, 0, 0.5);
+        }
+
+        .contact-info {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 3rem;
+        }
+
+        .contact-info a {
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .marquee {
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 1rem 0;
+            border-top: 1px solid #222;
+            border-bottom: 1px solid #222;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @media (max-width: 768px) {
+            .project-item {
+                grid-template-columns: 1fr;
+            }
+            
+            section {
+                padding: 3rem 1.5rem;
+            }
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+        }
+    </style>
+</head>
+<body>
+    <div class="noise"></div>
+    <div class="cursor-follower" id="cursor"></div>
+
+    <section class="hero">
+        <h1 class="hero-title">
+            <span class="accent">AI</span>-FIRST<br>
+            DEVELOPER
+        </h1>
+        <p class="hero-sub">
+            Djimon Pfitzer. SaaS-Gründer. Automation-Architekt.<br>
+            Ich baue keine Features — ich eliminiere manuelle Prozesse.
+        </p>
+        <div class="scroll-indicator">↓ SCROLL</div>
+    </section>
+
+    <div class="marquee">
+        <div class="marquee-content">
+            N8N • CLAUDE • CHATGPT • GEMINI • SUPABASE • REACT • NODE.JS • VERCEL • AUTOMATION • AGENTIC WORKFLOWS • LLM INTEGRATION • N8N • CLAUDE • CHATGPT • GEMINI • SUPABASE • REACT • NODE.JS • VERCEL • AUTOMATION • AGENTIC WORKFLOWS • LLM INTEGRATION • 
+        </div>
+    </div>
+
+    <section class="problems-section">
+        <h2 class="section-title">Probleme,<br>die ich mit AI<br>gelöst habe</h2>
+        
+        <div class="problem-grid">
+            <div class="problem-card">
+                <div class="problem-label">Problem 01</div>
+                <h3 class="problem-title">Beat-Upload-Chaos → Vollautomatisierung</h3>
+                <p class="problem-desc">
+                    Musikproduzenten luden Beats manuell auf YouTube hoch. Titel, Tags, Thumbnails — alles per Hand. Ich baute TYPEBEAT.FUN: Eine KI generiert SEO-optimierte Titel, analysiert Nischen, erstellt Tags automatisch. ~1.000 Nutzer. Hunderte Stunden gespart.
+                </p>
+                <div class="problem-tech">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">OpenAI API</span>
+                    <span class="tech-tag">YouTube API</span>
+                    <span class="tech-tag">Supabase</span>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-label">Problem 02</div>
+                <h3 class="problem-title">Schichtplan-Hölle → Self-Service Tool</h3>
+                <p class="problem-desc">
+                    Ein Gastro-Betrieb koordinierte Schichten per WhatsApp und Excel. Chaos. Ich baute ein Schichtplan-Tool: Mitarbeiter tragen sich selbst ein, Admins haben Übersicht, automatische Benachrichtigungen. Zero manueller Aufwand.
+                </p>
+                <div class="problem-tech">
+                    <span class="tech-tag">Next.js</span>
+                    <span class="tech-tag">Supabase</span>
+                    <span class="tech-tag">Vercel</span>
+                    <span class="tech-tag">Auth</span>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-label">Problem 03</div>
+                <h3 class="problem-title">Lead-Generierung → AI-Funnel</h3>
+                <p class="problem-desc">
+                    Content Creator brauchte qualifizierte Leads für sein Coaching. Ich baute einen interaktiven Funnel mit AI-Chat, der Besucher qualifiziert und direkt in den Kalender bucht. Conversion-Rate vervielfacht.
+                </p>
+                <div class="problem-tech">
+                    <span class="tech-tag">n8n</span>
+                    <span class="tech-tag">Claude API</span>
+                    <span class="tech-tag">Webhooks</span>
+                    <span class="tech-tag">CRM Integration</span>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-label">Problem 04</div>
+                <h3 class="problem-title">Mein eigener AI-Agent → Clawdbot</h3>
+                <p class="problem-desc">
+                    Ich wollte einen persönlichen AI-Assistenten, der proaktiv handelt. Jetzt läuft ein Claude-basierter Bot 24/7, der meine Projekte monitort, tägliche Reports sendet, Recherchen durchführt und Browser automatisiert.
+                </p>
+                <div class="problem-tech">
+                    <span class="tech-tag">Claude API</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">Cron Jobs</span>
+                    <span class="tech-tag">Browser Automation</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <h2 class="section-title" style="color: var(--black);">In Zahlen</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">~1000</div>
+                <div class="stat-label">Nutzer auf TYPEBEAT.FUN</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">14+</div>
+                <div class="stat-label">Monate Gründer-Erfahrung</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">3</div>
+                <div class="stat-label">AI-Produkte live</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">AI-Agent im Einsatz</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects-section">
+        <h2 class="section-title">Projekte</h2>
+        
+        <div class="project-item">
+            <div>
+                <h3 class="project-name">TYPEBEAT.FUN</h3>
+                <a href="https://typebeat.fun" target="_blank" class="project-link">→ typebeat.fun</a>
+            </div>
+            <p class="project-desc">
+                SaaS für Musikproduzenten. Automatisiert Beat-Uploads auf YouTube mit KI-generierten Titeln, Nischen-Analyse und SEO-Optimierung. Full-Stack entwickelt, skaliert auf ~1.000 User, internationales Team geführt.
+            </p>
+        </div>
+
+        <div class="project-item">
+            <div>
+                <h3 class="project-name">Schichtplaner</h3>
+                <a href="#" class="project-link">→ Private Instance</a>
+            </div>
+            <p class="project-desc">
+                Self-Service Schichtplan-Tool für Gastro-Betrieb. Mitarbeiter tragen sich selbst ein, Admins verwalten Bereiche. Rollenbasierte Auth, automatische Updates. WhatsApp-Chaos → strukturierter Prozess.
+            </p>
+        </div>
+
+        <div class="project-item">
+            <div>
+                <h3 class="project-name">AI Lead Funnel</h3>
+                <a href="#" class="project-link">→ Client Project</a>
+            </div>
+            <p class="project-desc">
+                Interaktiver Funnel für Content Creator. AI-Chat qualifiziert Besucher, sammelt Daten, bucht direkt in Calendly. n8n-Workflow orchestriert den gesamten Flow. Hands-off Lead-Generierung.
+            </p>
+        </div>
+    </section>
+
+    <section class="why-section">
+        <h2 class="section-title">Warum ich</h2>
+        <div class="why-grid">
+            <div class="why-item">
+                <span class="why-number">01</span>
+                <p class="why-text">Ich denke wie ein Gründer. ROI first. Wenn eine Lösung das Problem nicht effizienter löst, baue ich sie nicht.</p>
+            </div>
+            <div class="why-item">
+                <span class="why-number">02</span>
+                <p class="why-text">Ich hasse manuelle Prozesse. Wenn ich etwas zweimal mache, automatisiere ich es beim dritten Mal.</p>
+            </div>
+            <div class="why-item">
+                <span class="why-number">03</span>
+                <p class="why-text">Ich warte nicht auf Tickets. Ich sehe Ineffizienzen und eliminiere sie proaktiv.</p>
+            </div>
+            <div class="why-item">
+                <span class="why-number">04</span>
+                <p class="why-text">AI ist mein daily driver. Claude, ChatGPT, Gemini, n8n, Cursor — ich nutze alles was funktioniert.</p>
+            </div>
+            <div class="why-item">
+                <span class="why-number">05</span>
+                <p class="why-text">Ich liefere Outcomes, keine Outputs. Time-to-Hire verkürzen > Lines of Code schreiben.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <p class="cta-text">
+            Bereit, euren Candidate Flow in eine AI-gesteuerte Engine zu verwandeln.
+        </p>
+        <a href="mailto:djimon@typebeat.fun" class="cta-button">Let's talk</a>
+        <div class="contact-info">
+            <a href="mailto:djimon@typebeat.fun">djimon@typebeat.fun</a> · 
+            <a href="https://typebeat.fun" target="_blank">typebeat.fun</a> · 
+            <a href="https://github.com/djimonlee" target="_blank">github.com/djimonlee</a>
+        </div>
+    </section>
+
+    <script>
+        // Cursor follower
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 10 + 'px';
+            cursor.style.top = e.clientY - 10 + 'px';
+        });
+
+        // Hover effect on interactive elements
+        document.querySelectorAll('a, button, .problem-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(2)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+            });
+        });
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.problem-card, .project-item, .why-item, .stat-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
