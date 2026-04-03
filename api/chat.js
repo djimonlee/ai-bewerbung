@@ -1,5 +1,3 @@
-const Anthropic = require('@anthropic-ai/sdk').default;
-
 const SYSTEM_PROMPT = `Du bist ein AI-Assistent auf der Bewerbungsseite von Djimon Pfitzer. Beantworte Fragen über ihn professionell aber locker. Hier ist sein Profil:
 
 **PERSON**
@@ -74,36 +72,55 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Message required' });
   }
 
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('ANTHROPIC_API_KEY not set');
+  if (!process.env.GROQ_API_KEY) {
+    console.error('GROQ_API_KEY not set');
     return res.status(500).json({ error: 'API key not configured' });
   }
 
   try {
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
-    });
-
+    // Build messages array for Groq
     const messages = [
+      { role: 'system', content: SYSTEM_PROMPT },
       ...history,
       { role: 'user', content: message }
     ];
 
-    const response = await anthropic.messages.create({
-      model: 'claude-3-haiku-20240307',
-      max_tokens: 500,
-      system: SYSTEM_PROMPT,
-      messages: messages,
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: messages,
+        max_tokens: 500,
+        temperature: 0.7,
+      }),
     });
 
-    const assistantMessage = response.content[0].text;
+    if (!response.ok) {
+      const errorData = await response.text();
+      console.error('Groq API error:', errorData);
+      return res.status(500).json({ error: 'AI request failed', details: errorData });
+    }
+
+    const data = await response.json();
+    const assistantMessage = data.choices[0].message.content;
+
+    // Return history without system message for client
+    const newHistory = [
+      ...history,
+      { role: 'user', content: message },
+      { role: 'assistant', content: assistantMessage }
+    ];
 
     return res.status(200).json({ 
       response: assistantMessage,
-      history: [...messages, { role: 'assistant', content: assistantMessage }]
+      history: newHistory
     });
   } catch (error) {
-    console.error('Anthropic API error:', error.message || error);
+    console.error('Groq API error:', error.message || error);
     return res.status(500).json({ error: 'AI request failed', details: error.message });
   }
 };
