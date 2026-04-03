@@ -810,6 +810,81 @@
             background: #0a0a0a;
         }
         
+        /* Stylized Site Preview */
+        .site-mockup {
+            padding: 1rem;
+            background: linear-gradient(135deg, #0a0a0a 0%, #111 100%);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .site-mockup::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 62, 0, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(255, 62, 0, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .mockup-logo {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -0.02em;
+        }
+        
+        .mockup-tagline {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--gray);
+            text-align: center;
+            max-width: 280px;
+        }
+        
+        .mockup-cta {
+            margin-top: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--accent);
+            color: #000;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .mockup-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 0.5rem;
+        }
+        
+        .mockup-stat {
+            text-align: center;
+        }
+        
+        .mockup-stat-number {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: #fff;
+        }
+        
+        .mockup-stat-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.55rem;
+            color: var(--gray);
+            text-transform: uppercase;
+        }
+        
         .project-preview-cta {
             font-family: 'Space Mono', monospace;
             font-size: 0.8rem;
@@ -1297,7 +1372,25 @@
                         <span class="browser-dot green"></span>
                         <span class="browser-url">typebeat.fun</span>
                     </div>
-                    <iframe src="https://typebeat.fun" loading="lazy" title="TYPEBEAT.FUN"></iframe>
+                    <div class="site-mockup">
+                        <div class="mockup-logo">UPLOAD ONCE. <span style="color: var(--accent)">WE HANDLE THE REST.</span></div>
+                        <div class="mockup-tagline">SaaS for producers. Auto YouTube uploads, AI titles, instant checkout.</div>
+                        <div class="mockup-cta">Get Started Free →</div>
+                        <div class="mockup-stats">
+                            <div class="mockup-stat">
+                                <div class="mockup-stat-number">775+</div>
+                                <div class="mockup-stat-label">Producers</div>
+                            </div>
+                            <div class="mockup-stat">
+                                <div class="mockup-stat-number">3,228+</div>
+                                <div class="mockup-stat-label">Beats</div>
+                            </div>
+                            <div class="mockup-stat">
+                                <div class="mockup-stat-number">0%</div>
+                                <div class="mockup-stat-label">Commission</div>
+                            </div>
+                        </div>
+                    </div>
                 </a>
             </div>
         </div>
@@ -1339,9 +1432,30 @@
                     Interactive funnel for content creator. AI chat qualifies visitors, collects data, books directly into Calendly. n8n workflow orchestrates entire flow. Hands-off lead generation.
                 </p>
                 <a href="https://prod.danielwsp.com" target="_blank" class="project-preview">
-                    <img src="images/funnel-preview.jpg" alt="AI Lead Funnel Preview" loading="lazy">
-                    <div class="project-preview-overlay">
-                        <span class="project-preview-cta">Zur Website →</span>
+                    <div class="browser-bar">
+                        <span class="browser-dot red"></span>
+                        <span class="browser-dot yellow"></span>
+                        <span class="browser-dot green"></span>
+                        <span class="browser-url">prod.danielwsp.com</span>
+                    </div>
+                    <div class="site-mockup">
+                        <div class="mockup-logo">AI <span style="color: var(--accent)">LEAD FUNNEL</span></div>
+                        <div class="mockup-tagline">Interaktiver Chat qualifiziert Besucher und bucht direkt in den Kalender.</div>
+                        <div class="mockup-cta">Jetzt starten →</div>
+                        <div class="mockup-stats">
+                            <div class="mockup-stat">
+                                <div class="mockup-stat-number">24/7</div>
+                                <div class="mockup-stat-label">Active</div>
+                            </div>
+                            <div class="mockup-stat">
+                                <div class="mockup-stat-number">AI</div>
+                                <div class="mockup-stat-label">Powered</div>
+                            </div>
+                            <div class="mockup-stat">
+                                <div class="mockup-stat-number">Auto</div>
+                                <div class="mockup-stat-label">Booking</div>
+                            </div>
+                        </div>
                     </div>
                 </a>
             </div>
