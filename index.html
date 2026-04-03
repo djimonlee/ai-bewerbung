@@ -1679,11 +1679,24 @@
             box-shadow: 0 4px 20px rgba(255, 62, 0, 0.4);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             font-size: 1.5rem;
+            animation: chat-pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes chat-pulse {
+            0%, 100% { 
+                box-shadow: 0 4px 20px rgba(255, 62, 0, 0.4);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 4px 35px rgba(255, 62, 0, 0.8), 0 0 0 8px rgba(255, 62, 0, 0.15);
+                transform: scale(1.05);
+            }
         }
 
         .chat-toggle:hover {
             transform: scale(1.1) rotate(10deg);
             box-shadow: 0 6px 40px rgba(255, 62, 0, 0.7);
+            animation: none;
         }
 
         .chat-toggle.active {
