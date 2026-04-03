@@ -740,25 +740,57 @@
             line-height: 1.8;
         }
         
-        /* Project Preview Embed */
+        /* Project Preview Embed - Browser Mockup Style */
         .project-preview {
             margin-top: 1.5rem;
             border-radius: 12px;
             overflow: hidden;
+            background: #1a1a1a;
             border: 1px solid #333;
             transition: all 0.3s ease;
-            position: relative;
         }
         
         .project-preview:hover {
             border-color: var(--accent);
             box-shadow: 0 10px 40px rgba(255, 62, 0, 0.15);
+            transform: translateY(-4px);
+        }
+        
+        .browser-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 14px;
+            background: #111;
+            border-bottom: 1px solid #222;
+        }
+        
+        .browser-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #333;
+        }
+        
+        .browser-dot.red { background: #ff5f57; }
+        .browser-dot.yellow { background: #febc2e; }
+        .browser-dot.green { background: #28c840; }
+        
+        .browser-url {
+            flex: 1;
+            margin-left: 10px;
+            padding: 4px 12px;
+            background: #0a0a0a;
+            border-radius: 4px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--gray);
         }
         
         .project-preview img {
             width: 100%;
             height: auto;
-            max-height: 250px;
+            max-height: 220px;
             object-fit: cover;
             object-position: top;
             display: block;
@@ -767,21 +799,6 @@
         
         .project-preview:hover img {
             transform: scale(1.02);
-        }
-        
-        .project-preview-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(10, 10, 10, 0.9) 0%, transparent 50%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            display: flex;
-            align-items: flex-end;
-            padding: 1.5rem;
-        }
-        
-        .project-preview:hover .project-preview-overlay {
-            opacity: 1;
         }
         
         .project-preview-cta {
@@ -1265,10 +1282,13 @@
                     SaaS for music producers. Automates beat uploads to YouTube with AI-generated titles, niche analysis, and SEO optimization. Full-stack developed, scaled to ~800 users, led international team.
                 </p>
                 <a href="https://typebeat.fun" target="_blank" class="project-preview">
-                    <img src="images/typebeat-preview.jpg" alt="TYPEBEAT.FUN Preview" loading="lazy">
-                    <div class="project-preview-overlay">
-                        <span class="project-preview-cta">Zur Website →</span>
+                    <div class="browser-bar">
+                        <span class="browser-dot red"></span>
+                        <span class="browser-dot yellow"></span>
+                        <span class="browser-dot green"></span>
+                        <span class="browser-url">typebeat.fun</span>
                     </div>
+                    <img src="images/typebeat-preview.jpg" alt="TYPEBEAT.FUN Preview" loading="lazy">
                 </a>
             </div>
         </div>
@@ -1286,6 +1306,12 @@
                     Self-service scheduling tool for restaurant. Employees sign up themselves, admins manage areas. Role-based auth, automatic updates. WhatsApp chaos → structured process.
                 </p>
                 <div class="project-preview">
+                    <div class="browser-bar">
+                        <span class="browser-dot red"></span>
+                        <span class="browser-dot yellow"></span>
+                        <span class="browser-dot green"></span>
+                        <span class="browser-url">schichtplaner.app</span>
+                    </div>
                     <img src="images/schichtplaner-preview.png" alt="Schichtplaner Preview" loading="lazy">
                 </div>
             </div>
