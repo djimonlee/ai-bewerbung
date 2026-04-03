@@ -41,6 +41,64 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
 
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+        }
+
+        .lang-label {
+            color: var(--gray);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .lang-btn {
+            padding: 0.5rem 0.8rem;
+            background: transparent;
+            border: 1px solid #333;
+            color: var(--gray);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .lang-btn.active {
+            background: var(--white);
+            color: var(--black);
+            border-color: var(--white);
+        }
+
+        .lang-btn .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            font-size: 0.5rem;
+            padding: 2px 4px;
+            background: var(--accent);
+            color: var(--black);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--white);
+        }
+
+        .lang-divider {
+            color: #333;
+        }
+
         section {
             min-height: 100vh;
             padding: 4rem 2rem;
@@ -366,6 +424,11 @@
             section {
                 padding: 3rem 1.5rem;
             }
+
+            .lang-toggle {
+                top: 1rem;
+                right: 1rem;
+            }
         }
 
         .cursor-follower {
@@ -379,20 +442,44 @@
             transition: transform 0.1s ease;
             mix-blend-mode: difference;
         }
+
+        /* Hide elements based on language */
+        [data-lang="en"] { display: none; }
+        body.en [data-lang="en"] { display: block; }
+        body.en [data-lang="de"] { display: none; }
+        body.en .lang-btn[data-target="en"] { background: var(--white); color: var(--black); border-color: var(--white); }
+        body.en .lang-btn[data-target="de"] { background: transparent; color: var(--gray); border-color: #333; }
     </style>
 </head>
 <body>
     <div class="noise"></div>
     <div class="cursor-follower" id="cursor"></div>
 
+    <!-- Language Toggle -->
+    <div class="lang-toggle">
+        <button class="lang-btn active" data-target="de">
+            DE
+            <span class="badge">Native</span>
+        </button>
+        <span class="lang-divider">/</span>
+        <button class="lang-btn" data-target="en">
+            EN
+            <span class="badge">Fluent</span>
+        </button>
+    </div>
+
     <section class="hero">
         <h1 class="hero-title">
             <span class="accent">AI</span>-FIRST<br>
             DEVELOPER
         </h1>
-        <p class="hero-sub">
+        <p class="hero-sub" data-lang="de">
             Djimon Pfitzer. SaaS-Gründer. Automation-Architekt.<br>
             Ich baue keine Features — ich eliminiere manuelle Prozesse.
+        </p>
+        <p class="hero-sub" data-lang="en">
+            Djimon Pfitzer. SaaS Founder. Automation Architect.<br>
+            I don't build features — I eliminate manual processes.
         </p>
         <div class="scroll-indicator">↓ SCROLL</div>
     </section>
@@ -404,14 +491,19 @@
     </div>
 
     <section class="problems-section">
-        <h2 class="section-title">Probleme,<br>die ich mit AI<br>gelöst habe</h2>
+        <h2 class="section-title" data-lang="de">Probleme,<br>die ich mit AI<br>gelöst habe</h2>
+        <h2 class="section-title" data-lang="en">Problems<br>I've solved<br>with AI</h2>
         
         <div class="problem-grid">
             <div class="problem-card">
                 <div class="problem-label">Problem 01</div>
-                <h3 class="problem-title">Beat-Upload-Chaos → Vollautomatisierung</h3>
-                <p class="problem-desc">
+                <h3 class="problem-title" data-lang="de">Beat-Upload-Chaos → Vollautomatisierung</h3>
+                <h3 class="problem-title" data-lang="en">Beat Upload Chaos → Full Automation</h3>
+                <p class="problem-desc" data-lang="de">
                     Musikproduzenten luden Beats manuell auf YouTube hoch. Titel, Tags, Thumbnails — alles per Hand. Ich baute TYPEBEAT.FUN: Eine KI generiert SEO-optimierte Titel, analysiert Nischen, erstellt Tags automatisch. ~1.000 Nutzer. Hunderte Stunden gespart.
+                </p>
+                <p class="problem-desc" data-lang="en">
+                    Music producers uploaded beats to YouTube manually. Titles, tags, thumbnails — all by hand. I built TYPEBEAT.FUN: AI generates SEO-optimized titles, analyzes niches, creates tags automatically. ~1,000 users. Hundreds of hours saved.
                 </p>
                 <div class="problem-tech">
                     <span class="tech-tag">React</span>
@@ -424,9 +516,13 @@
 
             <div class="problem-card">
                 <div class="problem-label">Problem 02</div>
-                <h3 class="problem-title">Schichtplan-Hölle → Self-Service Tool</h3>
-                <p class="problem-desc">
+                <h3 class="problem-title" data-lang="de">Schichtplan-Hölle → Self-Service Tool</h3>
+                <h3 class="problem-title" data-lang="en">Scheduling Hell → Self-Service Tool</h3>
+                <p class="problem-desc" data-lang="de">
                     Ein Gastro-Betrieb koordinierte Schichten per WhatsApp und Excel. Chaos. Ich baute ein Schichtplan-Tool: Mitarbeiter tragen sich selbst ein, Admins haben Übersicht, automatische Benachrichtigungen. Zero manueller Aufwand.
+                </p>
+                <p class="problem-desc" data-lang="en">
+                    A restaurant coordinated shifts via WhatsApp and Excel. Chaos. I built a scheduling tool: employees sign up themselves, admins have overview, automatic notifications. Zero manual effort.
                 </p>
                 <div class="problem-tech">
                     <span class="tech-tag">Next.js</span>
@@ -438,9 +534,13 @@
 
             <div class="problem-card">
                 <div class="problem-label">Problem 03</div>
-                <h3 class="problem-title">Lead-Generierung → AI-Funnel</h3>
-                <p class="problem-desc">
+                <h3 class="problem-title" data-lang="de">Lead-Generierung → AI-Funnel</h3>
+                <h3 class="problem-title" data-lang="en">Lead Generation → AI Funnel</h3>
+                <p class="problem-desc" data-lang="de">
                     Content Creator brauchte qualifizierte Leads für sein Coaching. Ich baute einen interaktiven Funnel mit AI-Chat, der Besucher qualifiziert und direkt in den Kalender bucht. Conversion-Rate vervielfacht.
+                </p>
+                <p class="problem-desc" data-lang="en">
+                    Content creator needed qualified leads for coaching. I built an interactive funnel with AI chat that qualifies visitors and books directly into calendar. Conversion rate multiplied.
                 </p>
                 <div class="problem-tech">
                     <span class="tech-tag">n8n</span>
@@ -452,9 +552,13 @@
 
             <div class="problem-card">
                 <div class="problem-label">Problem 04</div>
-                <h3 class="problem-title">Mein eigener AI-Agent → Clawdbot</h3>
-                <p class="problem-desc">
+                <h3 class="problem-title" data-lang="de">Mein eigener AI-Agent → 24/7 Automatisierung</h3>
+                <h3 class="problem-title" data-lang="en">My Own AI Agent → 24/7 Automation</h3>
+                <p class="problem-desc" data-lang="de">
                     Ich wollte einen persönlichen AI-Assistenten, der proaktiv handelt. Jetzt läuft ein Claude-basierter Bot 24/7, der meine Projekte monitort, tägliche Reports sendet, Recherchen durchführt und Browser automatisiert.
+                </p>
+                <p class="problem-desc" data-lang="en">
+                    I wanted a personal AI assistant that acts proactively. Now a Claude-based bot runs 24/7, monitoring my projects, sending daily reports, conducting research, and automating browsers.
                 </p>
                 <div class="problem-tech">
                     <span class="tech-tag">Claude API</span>
@@ -467,95 +571,118 @@
     </section>
 
     <section class="stats-section">
-        <h2 class="section-title" style="color: var(--black);">In Zahlen</h2>
+        <h2 class="section-title" style="color: var(--black)" data-lang="de">In Zahlen</h2>
+        <h2 class="section-title" style="color: var(--black)" data-lang="en">By the Numbers</h2>
         <div class="stats-grid">
             <div class="stat-item">
                 <div class="stat-number">~1000</div>
-                <div class="stat-label">Nutzer auf TYPEBEAT.FUN</div>
+                <div class="stat-label" data-lang="de">Nutzer auf TYPEBEAT.FUN</div>
+                <div class="stat-label" data-lang="en">Users on TYPEBEAT.FUN</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number">14+</div>
-                <div class="stat-label">Monate Gründer-Erfahrung</div>
+                <div class="stat-label" data-lang="de">Monate Gründer-Erfahrung</div>
+                <div class="stat-label" data-lang="en">Months Founder Experience</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number">3</div>
-                <div class="stat-label">AI-Produkte live</div>
+                <div class="stat-label" data-lang="de">AI-Produkte live</div>
+                <div class="stat-label" data-lang="en">AI Products Live</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number">24/7</div>
-                <div class="stat-label">AI-Agent im Einsatz</div>
+                <div class="stat-label" data-lang="de">AI-Agent im Einsatz</div>
+                <div class="stat-label" data-lang="en">AI Agent Running</div>
             </div>
         </div>
     </section>
 
     <section class="projects-section">
-        <h2 class="section-title">Projekte</h2>
+        <h2 class="section-title" data-lang="de">Projekte</h2>
+        <h2 class="section-title" data-lang="en">Projects</h2>
         
         <div class="project-item">
             <div>
                 <h3 class="project-name">TYPEBEAT.FUN</h3>
-                <a href="https://typebeat.fun" target="_blank" class="project-link">→ typebeat.fun</a>
+                <span class="project-link">→ SaaS Platform</span>
             </div>
-            <p class="project-desc">
+            <p class="project-desc" data-lang="de">
                 SaaS für Musikproduzenten. Automatisiert Beat-Uploads auf YouTube mit KI-generierten Titeln, Nischen-Analyse und SEO-Optimierung. Full-Stack entwickelt, skaliert auf ~1.000 User, internationales Team geführt.
+            </p>
+            <p class="project-desc" data-lang="en">
+                SaaS for music producers. Automates beat uploads to YouTube with AI-generated titles, niche analysis, and SEO optimization. Full-stack developed, scaled to ~1,000 users, led international team.
             </p>
         </div>
 
         <div class="project-item">
             <div>
                 <h3 class="project-name">Schichtplaner</h3>
-                <a href="#" class="project-link">→ Private Instance</a>
+                <span class="project-link">→ Private Instance</span>
             </div>
-            <p class="project-desc">
+            <p class="project-desc" data-lang="de">
                 Self-Service Schichtplan-Tool für Gastro-Betrieb. Mitarbeiter tragen sich selbst ein, Admins verwalten Bereiche. Rollenbasierte Auth, automatische Updates. WhatsApp-Chaos → strukturierter Prozess.
+            </p>
+            <p class="project-desc" data-lang="en">
+                Self-service scheduling tool for restaurant. Employees sign up themselves, admins manage areas. Role-based auth, automatic updates. WhatsApp chaos → structured process.
             </p>
         </div>
 
         <div class="project-item">
             <div>
                 <h3 class="project-name">AI Lead Funnel</h3>
-                <a href="#" class="project-link">→ Client Project</a>
+                <span class="project-link">→ Client Project</span>
             </div>
-            <p class="project-desc">
+            <p class="project-desc" data-lang="de">
                 Interaktiver Funnel für Content Creator. AI-Chat qualifiziert Besucher, sammelt Daten, bucht direkt in Calendly. n8n-Workflow orchestriert den gesamten Flow. Hands-off Lead-Generierung.
+            </p>
+            <p class="project-desc" data-lang="en">
+                Interactive funnel for content creator. AI chat qualifies visitors, collects data, books directly into Calendly. n8n workflow orchestrates entire flow. Hands-off lead generation.
             </p>
         </div>
     </section>
 
     <section class="why-section">
-        <h2 class="section-title">Warum ich</h2>
+        <h2 class="section-title" data-lang="de">Warum ich</h2>
+        <h2 class="section-title" data-lang="en">Why me</h2>
         <div class="why-grid">
             <div class="why-item">
                 <span class="why-number">01</span>
-                <p class="why-text">Ich denke wie ein Gründer. ROI first. Wenn eine Lösung das Problem nicht effizienter löst, baue ich sie nicht.</p>
+                <p class="why-text" data-lang="de">Ich denke wie ein Gründer. ROI first. Wenn eine Lösung das Problem nicht effizienter löst, baue ich sie nicht.</p>
+                <p class="why-text" data-lang="en">I think like a founder. ROI first. If a solution doesn't solve the problem more efficiently, I don't build it.</p>
             </div>
             <div class="why-item">
                 <span class="why-number">02</span>
-                <p class="why-text">Ich hasse manuelle Prozesse. Wenn ich etwas zweimal mache, automatisiere ich es beim dritten Mal.</p>
+                <p class="why-text" data-lang="de">Ich hasse manuelle Prozesse. Wenn ich etwas zweimal mache, automatisiere ich es beim dritten Mal.</p>
+                <p class="why-text" data-lang="en">I hate manual processes. If I do something twice, I automate it the third time.</p>
             </div>
             <div class="why-item">
                 <span class="why-number">03</span>
-                <p class="why-text">Ich warte nicht auf Tickets. Ich sehe Ineffizienzen und eliminiere sie proaktiv.</p>
+                <p class="why-text" data-lang="de">Ich warte nicht auf Tickets. Ich sehe Ineffizienzen und eliminiere sie proaktiv.</p>
+                <p class="why-text" data-lang="en">I don't wait for tickets. I see inefficiencies and eliminate them proactively.</p>
             </div>
             <div class="why-item">
                 <span class="why-number">04</span>
-                <p class="why-text">AI ist mein daily driver. Claude, ChatGPT, Gemini, n8n, Cursor — ich nutze alles was funktioniert.</p>
+                <p class="why-text" data-lang="de">AI ist mein daily driver. Claude, ChatGPT, Gemini, n8n, Cursor — ich nutze alles was funktioniert.</p>
+                <p class="why-text" data-lang="en">AI is my daily driver. Claude, ChatGPT, Gemini, n8n, Cursor — I use whatever works.</p>
             </div>
             <div class="why-item">
                 <span class="why-number">05</span>
-                <p class="why-text">Ich liefere Outcomes, keine Outputs. Time-to-Hire verkürzen > Lines of Code schreiben.</p>
+                <p class="why-text" data-lang="de">Ich liefere Outcomes, keine Outputs. Time-to-Hire verkürzen > Lines of Code schreiben.</p>
+                <p class="why-text" data-lang="en">I deliver outcomes, not outputs. Reducing Time-to-Hire > writing lines of code.</p>
             </div>
         </div>
     </section>
 
     <section class="cta-section">
-        <p class="cta-text">
+        <p class="cta-text" data-lang="de">
             Bereit, euren Candidate Flow in eine AI-gesteuerte Engine zu verwandeln.
         </p>
-        <a href="mailto:djimon@typebeat.fun" class="cta-button">Let's talk</a>
+        <p class="cta-text" data-lang="en">
+            Ready to transform your candidate flow into an AI-powered engine.
+        </p>
+        <a href="mailto:djimonpfitzer@gmail.com" class="cta-button">Let's talk</a>
         <div class="contact-info">
-            <a href="mailto:djimon@typebeat.fun">djimon@typebeat.fun</a> · 
-            <a href="https://typebeat.fun" target="_blank">typebeat.fun</a> · 
+            <a href="mailto:djimonpfitzer@gmail.com">djimonpfitzer@gmail.com</a> · 
             <a href="https://github.com/djimonlee" target="_blank">github.com/djimonlee</a>
         </div>
     </section>
@@ -575,6 +702,21 @@
             });
             el.addEventListener('mouseleave', () => {
                 cursor.style.transform = 'scale(1)';
+            });
+        });
+
+        // Language Toggle
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.getAttribute('data-target');
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                if (target === 'en') {
+                    document.body.classList.add('en');
+                } else {
+                    document.body.classList.remove('en');
+                }
             });
         });
 
